@@ -1,10 +1,10 @@
 ## 博客地址
-[jeehong.github.io](jeehong.github.io)
+[jeehong.github.io](https://jeehong.github.io/)
 <br />
 <br />Github托管的是Jekyll版本的源码
 ## 预览
 
-* Jekyll版本：[jeehong.github.io](jeehong.github.io)
+* Jekyll版本：[jeehong.github.io](https://jeehong.github.io/)
 
 ## 使用Jekyll版本作为博客模板，仅需如下几步：
 
