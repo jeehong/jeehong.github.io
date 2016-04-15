@@ -893,7 +893,6 @@ git push -u origin master
 [DNSPod]: http://dnspod.cn "DNSPod"
 [GitHub Pages]: http://pages.github.com "GitHub Pages"
 [WordPress]:    http://wordpress.org    "WordPress"
-[LippiOuYang]: coolshell.info  "coolshell"
 [1]:    {{ page.url}}  ({{ page.title }})
 [2]:  http://stevelosh.com/blog/2011/09/writing-vim-plugins/ "Write Vim Plugins"
 [3]: http://sivers.org/sharing   "The co-op business model: share whatever you've got"
