@@ -25,11 +25,11 @@
 ## 本项目使用了
 
 1. CNZZ的网站统计服务，官网：[http://cnzz.com](http://cnzz.com) 
-2. 多说的评论功能，官网:[http://duoshuo.com/](http://duoshuo.com/)
+2. 多说的评论功能，官网：[http://duoshuo.com/](http://duoshuo.com/)
 
 ## 联系方式
 
-联系方式： Email <jeehong2015@gmail.com>
+联系方式：<jeehong2015@gmail.com>
 
 
 ## 使用本项目作模板的博客链接

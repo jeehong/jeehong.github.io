@@ -5,7 +5,7 @@ title: "关于：About"
 
 ## 个人简介：
 
-* Jeehong [Jeehong](https://jeehong.github.io)
+* [Jeehong](https://jeehong.github.io)
 * MCU开发 Linux系统爱好者 C
 * 现居上海
 
@@ -13,7 +13,7 @@ title: "关于：About"
 <p class="contact">
 Github: <a href="https://github.com/jeehong" title="Github联系我"><img src="http://www.github.com/favicon.ico" width="24" height="24" style="display:inline-block;vertical-align:middle"></a>
 <br/>Email: jeehong2015@gmail.com
-<br />Q Q:597883395
+<br />Q Q: 597883395
 </p>
 
 ## 关于本站：
