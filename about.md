@@ -1,7 +1,7 @@
 ---
 title: "关于：About"
 ---
-<br/>![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)![](http://i.imgur.com/c2IW5Qt.png)
+<br/>![](http://i.imgur.com/c2IW5Qt.png)
 
 ## 个人简介：
 
