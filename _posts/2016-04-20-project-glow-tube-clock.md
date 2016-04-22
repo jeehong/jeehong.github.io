@@ -10,7 +10,7 @@ tags:	    [diy, project]
 # 明天开始，这个项目就启动了，我们拭目以待2016-04-20 #
 ![image1](/images/images/githubpages/glow-tube-clock-img01.jpg)<br />
 ## 2016/4/23 ##
-今天把以前画的一款硬件拖过来裁剪了一下又加入新的硬件，原理图雏形已经做好啦<br />
+<br />今天把以前画的一款硬件拖过来裁剪了一下又加入新的硬件，原理图雏形已经做好啦<br />
 ![image1](/images/glow-tube-clock-img/glow-tube-clock-img02.png)<br />
 而且从某宝上采购的辉光管也已经在路上啦，全新的前苏联产的IN1 六只和两个冒号氖泡，有图为证：<br />
 ![image1](/images/glow-tube-clock-img/glow-tube-clock-img03.jpg)<br />
