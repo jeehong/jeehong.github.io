@@ -52,8 +52,7 @@ tags:	    [diy, project]
 - 操作系统初始化LwIP协议栈、网卡驱动并创建网络任务；
 
 <p>在main中调用下列操作，创建一个进程 LwIPEntry</p>
-<pre><code>
-	sys_thread_new((void * )NULL, LwIPEntry, ( void * )NULL, 350, 1);
+<pre><code>sys_thread_new((void * )NULL, LwIPEntry, ( void * )NULL, 350, 1);
 </code></pre>
 <p>LwIPEntry函数初始化过程执行如下代码：</p>
 <pre><code>
