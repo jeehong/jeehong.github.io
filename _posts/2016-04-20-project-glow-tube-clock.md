@@ -44,7 +44,7 @@ tags:	    [diy, project]
 当连接到服务器37号端口时，服务器返回一个32bits的值随即断开链接，这个数值即是从1900年1月1日午夜到现在的秒数。数据从左至右从数据高位至低位。
 
 ## 2016/4/27 ##
-<p>今天移植了LwIP协议栈到FreeRTOS，在网络上找了一个例程以及拿来之前做过的LwIP裸奔代码整合到自己的系统上。将协议栈代码整合进操作系统，主要点在于：</p>
+<p>今天移植了LwIP协议栈到FreeRTOS，在网络上找了一个例程以及拿来之前做过的LwIP裸奔代码整合到自己的系统上。整个过程会有编译出错的情况，移植主要点在于：</p>
 - 纯净的FreeRTOS和LwIP需要一些文件支持，比如sys\_arch.c、sys\_arch.h；
 - 操作系统配置文件FreeRTOSConfig.h需要配置支持网络协议库的一些选项；
 - LwIP配置文件lwipconfig.h、lwipopts.h需要配置支持操作系统的配置选项；
@@ -55,16 +55,16 @@ tags:	    [diy, project]
 <pre><code>sys_thread_new((void * )NULL, LwIPEntry, ( void * )NULL, 350, 1);
 </code></pre>
 <p>LwIPEntry函数初始化过程执行如下代码：</p>
-<pre><code>	IP4_ADDR(&ipaddr, serverIP[0], serverIP[1], serverIP[2], serverIP[3]);
-	IP4_ADDR(&netmask, maskIP[0], maskIP[1], maskIP[2], maskIP[3]);
-	IP4_ADDR(&gw, gateIP[0], gateIP[1], gateIP[2], 1);
-	/* 初始化DM9000AEP与LWIP的接口，参数为网络接口结构体、ip地址、子网掩码、网关、网卡信息指针、初始化函数、输入函数 */
-	netif_add(&DM9000AEP, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &ethernet_input);	
-	netif_set_default(&DM9000AEP);	/* 把DM9000AEP设置为默认网卡 */
-	#if LWIP_DHCP	/* 若使用了DHCP */
-		dhcp_start(&DM9000AEP);	/* 启动DHCP */
-	#endif
-	netif_set_up(&DM9000AEP);	/* 使能硬件网络芯片接口驱动DM9000AEP */
+<pre><code>IP4_ADDR(&ipaddr, serverIP[0], serverIP[1], serverIP[2], serverIP[3]);
+IP4_ADDR(&netmask, maskIP[0], maskIP[1], maskIP[2], maskIP[3]);
+IP4_ADDR(&gw, gateIP[0], gateIP[1], gateIP[2], 1);
+/* 初始化DM9000AEP与LWIP的接口，参数为网络接口结构体、ip地址、子网掩码、网关、网卡信息指针、初始化函数、输入函数 */
+netif_add(&DM9000AEP, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &ethernet_input);	
+netif_set_default(&DM9000AEP);	/* 把DM9000AEP设置为默认网卡 */
+#if LWIP_DHCP	/* 若使用了DHCP */
+	dhcp_start(&DM9000AEP);	/* 启动DHCP */
+#endif
+netif_set_up(&DM9000AEP);	/* 使能硬件网络芯片接口驱动DM9000AEP */
 </code></pre>
 <p>这段代码转换网络地址并赋值给相应变量，设置添加网络接口，设置默认网卡以及使能网卡，这些操作对于LwIP是必须的。</p>
 <p>最后，完成了初始化操作，就可以提供网络服务了，接下来就是配置socket操作：</p>
