@@ -60,18 +60,17 @@ IP4_ADDR(&netmask, maskIP[0], maskIP[1], maskIP[2], maskIP[3]);
 IP4_ADDR(&gw, gateIP[0], gateIP[1], gateIP[2], 1);
 /* 初始化DM9000AEP与LWIP的接口，参数为网络接口结构体、ip地址、子网掩码、网关、网卡信息指针、初始化函数、输入函数 */
 netif_add(&DM9000AEP, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &ethernet_input);	
-netif_set_default(&DM9000AEP);	/* 把DM9000AEP设置为默认网卡 */
-#if LWIP_DHCP	/* 若使用了DHCP */
-	dhcp_start(&DM9000AEP);	/* 启动DHCP */
+netif_set_default(&DM9000AEP);	
+#if LWIP_DHCP	
+	dhcp_start(&DM9000AEP);	
 #endif
-netif_set_up(&DM9000AEP);	/* 使能硬件网络芯片接口驱动DM9000AEP */
+netif_set_up(&DM9000AEP);	
 </code></pre>
 <p>这段代码转换网络地址并赋值给相应变量，设置添加网络接口，设置默认网卡以及使能网卡，这些操作对于LwIP是必须的。</p>
 <p>最后，完成了初始化操作，就可以提供网络服务了，接下来就是配置socket操作：</p>
 <pre><code>__pstConn = netconn_new(NETCONN_TCP);
 netconn_bind(__pstConn, NULL, 80);
 netconn_listen(__pstConn);
-/* Initilaize the HelloWorld module */
 while(1)
 {
 	__pstNewConn = netconn_accept(__pstConn);	
