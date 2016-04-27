@@ -52,9 +52,12 @@ tags:	    [diy, project]
 - 操作系统初始化LwIP协议栈、网卡驱动并创建网络任务；
 
 <p>在main中调用下列操作，创建一个进程 LwIPEntry</p>
-<code>	   sys_thread_new((void * )NULL, LwIPEntry, ( void * )NULL, 350, 1);</code>
+<pre><code>
+	sys_thread_new((void * )NULL, LwIPEntry, ( void * )NULL, 350, 1);
+</code></pre>
 <p>LwIPEntry函数初始化过程执行如下代码：</p>
-<pre><code>	   IP4_ADDR( &ipaddr, serverIP[0], serverIP[1], serverIP[2], serverIP[3]);
+<pre><code>
+	IP4_ADDR( &ipaddr, serverIP[0], serverIP[1], serverIP[2], serverIP[3]);
 	IP4_ADDR( &netmask, maskIP[0], maskIP[1], maskIP[2], maskIP[3]);
 	IP4_ADDR( &gw, gateIP[0], gateIP[1], gateIP[2], 1);
 
@@ -72,7 +75,8 @@ tags:	    [diy, project]
 </code></pre>
 <p>这段代码转换网络地址并赋值给相应变量，设置添加网络接口，设置默认网卡以及使能网卡，这些操作对于LwIP是必须的。</p>
 <p>最后，完成了初始化操作，就可以提供网络服务了，接下来就是配置socket操作：</p>
-<pre><code>    __pstConn = netconn_new(NETCONN_TCP);
+<pre><code>    
+	__pstConn = netconn_new(NETCONN_TCP);
 	netconn_bind(__pstConn, NULL, 80);
 	netconn_listen(__pstConn);
    /* Initilaize the HelloWorld module */
