@@ -56,52 +56,51 @@ tags:	    [diy, project]
 </code></pre>
 <p>LwIPEntry函数初始化过程执行如下代码：</p>
 <pre><code>
-	IP4_ADDR( &ipaddr, serverIP[0], serverIP[1], serverIP[2], serverIP[3]);
-	IP4_ADDR( &netmask, maskIP[0], maskIP[1], maskIP[2], maskIP[3]);
-	IP4_ADDR( &gw, gateIP[0], gateIP[1], gateIP[2], 1);
+IP4_ADDR( &ipaddr, serverIP[0], serverIP[1], serverIP[2], serverIP[3]);
+IP4_ADDR( &netmask, maskIP[0], maskIP[1], maskIP[2], maskIP[3]);
+IP4_ADDR( &gw, gateIP[0], gateIP[1], gateIP[2], 1);
 
-	/* 初始化DM9000AEP与LWIP的接口，参数为网络接口结构体、ip地址、子网掩码、网关、网卡信息指针、初始化函数、输入函数 */
-	netif_add(&DM9000AEP, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &ethernet_input);	
-	netif_set_default(&DM9000AEP);					/* 把DM9000AEP设置为默认网卡 */
-	#if LWIP_DHCP	   		                     	/* 若使用了DHCP */
-	/*  Creates a new DHCP client for this interface on the first call.
-	Note: you must call dhcp_fine_tmr() and dhcp_coarse_tmr() at
-	the predefined regular intervals after starting the client.
-	You can peek in the netif->dhcp struct for the actual DHCP status.*/
-		dhcp_start(&DM9000AEP);                     /* 启动DHCP */
-	#endif
-	netif_set_up(&DM9000AEP);                       /* 使能硬件网络芯片接口驱动DM9000AEP */
+/* 初始化DM9000AEP与LWIP的接口，参数为网络接口结构体、ip地址、子网掩码、网关、网卡信息指针、初始化函数、输入函数 */
+netif_add(&DM9000AEP, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &ethernet_input);	
+netif_set_default(&DM9000AEP);					/* 把DM9000AEP设置为默认网卡 */
+#if LWIP_DHCP	   		                     	/* 若使用了DHCP */
+/*  Creates a new DHCP client for this interface on the first call.
+Note: you must call dhcp_fine_tmr() and dhcp_coarse_tmr() at
+the predefined regular intervals after starting the client.
+You can peek in the netif->dhcp struct for the actual DHCP status.*/
+	dhcp_start(&DM9000AEP);                     /* 启动DHCP */
+#endif
+netif_set_up(&DM9000AEP);                       /* 使能硬件网络芯片接口驱动DM9000AEP */
 </code></pre>
 <p>这段代码转换网络地址并赋值给相应变量，设置添加网络接口，设置默认网卡以及使能网卡，这些操作对于LwIP是必须的。</p>
 <p>最后，完成了初始化操作，就可以提供网络服务了，接下来就是配置socket操作：</p>
-<pre><code>    
-	__pstConn = netconn_new(NETCONN_TCP);
-	netconn_bind(__pstConn, NULL, 80);
-	netconn_listen(__pstConn);
-   /* Initilaize the HelloWorld module */
- 	while(1)
-	{
-		__pstNewConn = netconn_accept(__pstConn);
+<pre><code>  __pstConn = netconn_new(NETCONN_TCP);
+netconn_bind(__pstConn, NULL, 80);
+netconn_listen(__pstConn);
+/* Initilaize the HelloWorld module */
+while(1)
+{
+	__pstNewConn = netconn_accept(__pstConn);
 		
-		if(__pstNewConn != NULL)
-		{			
-			__pstNetbuf = netconn_recv(__pstNewConn);
-			if(__pstNetbuf != NULL)
-			{
-				netconn_write(__pstNewConn, "HTTP/1.1 200 OK\r\nContent-type: text/html\r\n\r\n", 44, NETCONN_COPY);
-				netconn_write(__pstNewConn, "&lt;body&gt;&lt;h1&gt;这是LWIP TCP测试！&lt;/h1&gt;&lt;/body&gt;", 40, NETCONN_COPY);
+	if(__pstNewConn != NULL)
+	{			
+		__pstNetbuf = netconn_recv(__pstNewConn);
+		if(__pstNetbuf != NULL)
+		{
+			netconn_write(__pstNewConn, "HTTP/1.1 200 OK\r\nContent-type: text/html\r\n\r\n", 44, NETCONN_COPY);
+			netconn_write(__pstNewConn, "&lt;body&gt;&lt;h1&gt;这是LWIP TCP测试！&lt;/h1&gt;&lt;/body&gt;", 40, NETCONN_COPY);
 				
-				netbuf_delete(__pstNetbuf);	
-			}
-			
-			netconn_close(__pstNewConn);
-			while(netconn_delete(__pstNewConn) != ERR_OK)
-				vTaskDelay(1);
+			netbuf_delete(__pstNetbuf);	
 		}
-	/* ethernetif_input(NULL); */
-	/* tcp_tmr(); */
-	/* etharp_tmr(); */ 
-  }		
+			
+		netconn_close(__pstNewConn);
+		while(netconn_delete(__pstNewConn) != ERR_OK)
+			vTaskDelay(1);
+	}
+/* ethernetif_input(NULL); */
+/* tcp_tmr(); */
+/* etharp_tmr(); */ 
+}		
 </code></pre>
 <p>这一段就是配置一个TCP控制块来提供一个TCP Web服务，首先需要创建一个TCP控制块，绑定端口，其次设置为监听状态，循环过程，该进程一直处于阻塞状态等待客户端连接。当有新的客户端接入时，向下进行接受客户端的连接返回一个网页数据，并关闭该链接。</p>
 
