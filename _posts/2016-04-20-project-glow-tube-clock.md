@@ -68,29 +68,33 @@ netif_set_up(&DM9000AEP);
 </code></pre>
 <p>这段代码转换网络地址并赋值给相应变量，设置添加网络接口，设置默认网卡以及使能网卡，这些操作对于LwIP是必须的。</p>
 <p>最后，完成了初始化操作，就可以提供网络服务了，接下来就是配置socket操作：</p>
-<pre><code>__pstConn = netconn_new(NETCONN_TCP);
-netconn_bind(__pstConn, NULL, 80);
-netconn_listen(__pstConn);
-while(1)
-{
-	__pstNewConn = netconn_accept(__pstConn);	
-	if(__pstNewConn != NULL)
-	{			
-		__pstNetbuf = netconn_recv(__pstNewConn);
-		if(__pstNetbuf != NULL)
-		{
-			netconn_write(__pstNewConn, "HTTP/1.1 200 OK\r\nContent-type: text/html\r\n\r\n", 44, NETCONN_COPY);
-			netconn_write(__pstNewConn, "&lt;body&gt;&lt;h1&gt;这是LWIP TCP测试！&lt;/h1&gt;&lt;/body&gt;", 40, NETCONN_COPY);	
-			netbuf_delete(__pstNetbuf);	
-		}	
-		netconn_close(__pstNewConn);
-		while(netconn_delete(__pstNewConn) != ERR_OK)
-			vTaskDelay(1);
-	}
-/* ethernetif_input(NULL); */
-/* tcp_tmr(); */
-/* etharp_tmr(); */ 
-}		
+<pre><code>struct netconn  *__pstConn, *__pstNewConn;
+	struct netbuf	*__pstNetbuf;
+
+	char *web_page = "&lt;html&gt;&lt;body&gt;&lt;center&gt;&lt;hl&gt;hello,World!&lt;/hl&gt;&lt;br&gt;&lt;hr&gt;&lt;font size=15&gt;hello,world!&lt;/font&gt;&lt;/center&gt;&lt;/body&gt;&lt;/html&gt;";
+	__pstConn = netconn_new(NETCONN_TCP);
+	netconn_bind(__pstConn, NULL, 80);
+	netconn_listen(__pstConn);
+   /* Initilaize the HelloWorld module */
+ 	while(1)
+	{
+		__pstNewConn = netconn_accept(__pstConn);
+		
+		if(__pstNewConn != NULL)
+		{			
+			__pstNetbuf = netconn_recv(__pstNewConn);
+			if(__pstNetbuf != NULL)
+			{
+				netconn_write(__pstNewConn, web_page, strlen(web_page), NETCONN_COPY);
+				
+				netbuf_delete(__pstNetbuf);	
+			}
+			
+			netconn_close(__pstNewConn);
+			while(netconn_delete(__pstNewConn) != ERR_OK)
+				vTaskDelay(1);
+		}
+	}	
 </code></pre>
 <p>这一段就是配置一个TCP控制块来提供一个TCP Web服务，首先需要创建一个TCP控制块，绑定端口，其次设置为监听状态，循环过程，该进程一直处于阻塞状态等待客户端连接。当有新的客户端接入时，向下进行接受客户端的连接返回一个网页数据，并关闭该链接。</p>
 
@@ -101,7 +105,7 @@ while(1)
 <code>	void prvSetupHardware(void); </code>
 <p>在bsp.c中有定义，所以结论还是需要系统需要配合适当的硬件初始化过程，简简单单调用STM32库提供的初始化过程并不可取。</p>
 
-## 2016/5/6 ##
+## 2016/5/8 ##
 <p>这个周末又要结束了，两天时间把PCB布置做好啦</p>
 <br />![image1](/images/glow-tube-clock-img/glow-tube-clock-img08.png)<br />
 <p>由于在看辉光管的事后没有仔细研究其封装，关于辉光管的布线全部都要做X镜像，害我差不多做了两遍。</p>
