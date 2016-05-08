@@ -10,7 +10,7 @@ tags:	    [diy, project]
 <p>明天开始，这个项目就启动了，我们拭目以待</p>
 ![image1](/images/images/githubpages/glow-tube-clock-img01.jpg)<br />
 <p>辉光管亦称“冷阴极离子管”或“冷阴极充电管”，利用气体辉光放电原理而工作的离子管。玻璃管中包括一个金属丝网制成的阳极和多个阴极。大部分数码管阴极的形状为数字。管中充以低压气体，通常大部分为氖加上一些汞和／或氩。给某一个阴极充电，数码管就会发出颜色光，视乎管内的气体而定，一般都是橙色或绿色。此次的diy项目就是利用辉光管的数显效果来做的，CPU采用STM32F103RCT6、软件搭载FreeRTOS实时系统、暂定使用LwIP协议栈，功能暂定温湿度显示日月年时分秒显示，网络校时网络获取当前温湿度的主体功能后续再考虑其他更有趣的功能。</p>
-源码和硬件工程全部放在github上: [grow-tube-clock](https://github.com/jeehong/grow-tube-clock)
+源码和硬件工程全部放在github上: [glow-tube-clock](https://github.com/jeehong/glow-tube-clock)
 
 ## 2016/4/23 ##
 
@@ -100,3 +100,9 @@ while(1)
 <p>这个东西苦恼了很多天，我有运行正常裸奔的LwIP的源码，最开始移植进入FreeRTOS时网络总是不通畅。后来又从网络上下载了一个FreeRTOS+LwIP的例程，各种比较编译调试，都不行，调试结果DM9000根本接收不到任何数据，最后想起来参考FreeRTOS官方的例程，抱着尝试的态度将他的硬件初始化的代码加入到本项目下，奇迹般的可以ping通了，那这部分代码接口函数是：</p>
 <code>	void prvSetupHardware(void); </code>
 <p>在bsp.c中有定义，所以结论还是需要系统需要配合适当的硬件初始化过程，简简单单调用STM32库提供的初始化过程并不可取。</p>
+
+## 2016/5/6 ##
+<p>这个周末又要结束了，两天时间把PCB布置做好啦</p>
+<br />![image1](/images/glow-tube-clock-img/glow-tube-clock-img08.png)<br />
+<p>由于在看辉光管的事后没有仔细研究其封装，关于辉光管的布线全部都要做X镜像，害我差不多做了两遍。</p>
+
