@@ -13,8 +13,8 @@ tags:	    [linux]
 　　<code>crontab -l </code> >>> 列出某个用户cron服务的详细内容 <br />
 　　<code>crontab -r </code> >>> 删除某个用户的cron服务 <br />
 　　<code>crontab -e </code> >>> 编辑某个用户的cron服务 </p>
-
-运行<code> crontab -e </code>来配置定时任务的，编写规则是每一行编辑一条定时任务，该任务格式是：
+<p>由于我的嵌入式文件系统缺少关于crontab的运行文件夹，所以执行<code>mkdir -p /var/spool/cron/crontabs</code>创建相关目录；</p>
+运行<code> crontab -e </code>来配置定时任务的，编辑完成后会在文件夹/var/spool/cron/crontabs下生成一个文件，该文件以当前用户名命名，其描述了所有任务的配置记录。而编写规则是每一行编辑一条定时任务，该任务格式是：
 <br />min hour day month week command
 <br />比如我要在每月12日晚上11点钟往文件a中写入当前时间则编辑：0 23 12 * * date > /home/root/a.txt
 <br />**一些比较实用的例子：**
