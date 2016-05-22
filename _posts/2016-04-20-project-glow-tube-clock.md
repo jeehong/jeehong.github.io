@@ -9,6 +9,7 @@ tags:	    [diy, project]
 ## 2016/4/20 ##
 <p>明天开始，这个项目就启动了，我们拭目以待</p>
 ![image1](/images/images/githubpages/glow-tube-clock-img01.jpg)<br />
+
 <p>辉光管亦称“冷阴极离子管”或“冷阴极充电管”，利用气体辉光放电原理而工作的离子管。玻璃管中包括一个金属丝网制成的阳极和多个阴极。大部分数码管阴极的形状为数字。管中充以低压气体，通常大部分为氖加上一些汞和／或氩。给某一个阴极充电，数码管就会发出颜色光，视乎管内的气体而定，一般都是橙色或绿色。此次的diy项目就是利用辉光管的数显效果来做的，CPU采用STM32F103RCT6、软件搭载FreeRTOS实时系统、暂定使用LwIP协议栈，功能暂定温湿度显示日月年时分秒显示，网络校时网络获取当前温湿度的主体功能后续再考虑其他更有趣的功能。</p>
 
 源码和硬件工程全部放在github上: [glow-tube-clock](https://github.com/jeehong/glow-tube-clock)
@@ -114,4 +115,36 @@ netif_set_up(&DM9000AEP);
 ## 2016/5/10 ##
 今天是个重要的日子，那就是PCB发工厂做板啦，庆幸的是我工位旁坐着几个给力的硬件高手，才不至于原理图发生原理性错误。不过也不好说，最终结果还的等板子回来测试才能下结论哇，哈哈，硬件工程师们，考验你们实力的时候到了。关于新的硬件已经发布到github,并且发布了一个新的版本[V1.0.1](https://github.com/jeehong/glow-tube-clock/releases/tag/V1.0.1)，版本含义Va.b.c，a：发布的硬件版本，b：软件发布版本，c：软件测试版本。软件部分暂时停留在功能开发阶段，硬件完成后，会集中做软件开发的。
 
-
+## 2016/5/22 ##
+<p>今天将辉光管显示功能使用的api写了一下。具体来说，就是将需要显示的数字写入到74HC595当中，这之中就有一个转换关系的问题就，即如何将6个管子需要显示的内容转换到规律性不强的锁存器当中。</p>
+<p>首先介绍一下锁存器电路，如下图，这是个局部视图，实际上网络标号S0-S59对应于辉光管秒低字节0-时高字节9；</p>
+<br />![image1](/images/glow-tube-clock-img/glow-tube-clock-img09.png)<br />
+<p>因为每个锁存器只输出8个位，导致锁存器与辉光管不是一一对应，为了得出每个管子显示内容与锁存器输出对应关系绘出下图：</p>
+<br />![image1](/images/glow-tube-clock-img/glow-tube-clock-img010.jpg)<br />
+<p>该视图，横线以上0-9就是要显示的内容，横线以下则是对应于当对应辉光管显示该数字时，需要传输到8个锁存器对应的8字节内容，该数组为map[8],通过观察和计算，得出了最下方的公式，即给出所在辉光管序号Q和待显示的内容V，则可以得出map[8]中对应字节所需要设置的内容；</p>
+最有整理给出了api函数，在文件[app_display.c](https://github.com/jeehong/glow-tube-clock/blob/master/software/APP/app_display.c)中，如下所示：
+<pre><code>/*
+ * desc:指向向锁存器输入的8字节
+ * src:指向待显示的6个辉光管数字[0,9],当超出给定范围时，认定为不显示任何内容
+ * 小时高  小时低  分钟高  分钟低  秒高    秒低
+ * src[0] src[1] src[2] src[3] src[4] src[5]
+ */
+static void app_display_set_map(char *desc, char *src)
+{
+	unsigned char tube;		/* 当前操作的管子序号 */
+	const unsigned char tube_num = 5;	/* 管子总数 */
+	unsigned char calc;
+	memset(desc, 0, sizeof(char) * 8);
+	for(tube = 0; tube <= tube_num; tube++)
+	{
+		if((unsigned char)src[tube] <= 9)
+		{
+			calc = tube * 10 + src[tube_num - tube];
+			desc[calc / 8] = 0x01 << (calc % 8);
+		}
+		else		/* 当满足这个条件时，则默认为不显示任何内容 */
+		{}
+	}	
+}
+</code></pre>
+这个函数被标记了static属性，也就是虽然称为一个api，我就是觉得这个函数在实现display功能中起到关键作用。但我想这还不具备可以开放给多任务的一个合理接口，对外开放还需要考虑到更多的因素，比如资源的互斥性。这个后面会斟酌并给出符合单片机高效性和实时性的接口。
