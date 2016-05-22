@@ -120,7 +120,7 @@ netif_set_up(&DM9000AEP);
 <p>首先介绍一下锁存器电路，如下图，这是个局部视图，实际上网络标号S0-S59对应于辉光管秒低字节0-时高字节9；</p>
 <br />![image1](/images/glow-tube-clock-img/glow-tube-clock-img09.png)<br />
 <p>因为每个锁存器只输出8个位，导致锁存器与辉光管不是一一对应，为了得出每个管子显示内容与锁存器输出对应关系绘出下图：</p>
-<br />![image1](/images/glow-tube-clock-img/glow-tube-clock-img010.jpg)<br />
+<br />![image1](/images/glow-tube-clock-img/glow-tube-clock-img10.jpg)<br />
 <p>该视图，横线以上0-9就是要显示的内容，横线以下则是对应于当对应辉光管显示该数字时，需要传输到8个锁存器对应的8字节内容，该数组为map[8],通过观察和计算，得出了最下方的公式，即给出所在辉光管序号Q和待显示的内容V，则可以得出map[8]中对应字节所需要设置的内容；</p>
 最有整理给出了api函数，在文件[app_display.c](https://github.com/jeehong/glow-tube-clock/blob/master/software/APP/app_display.c)中，如下所示：
 <pre><code>/*
