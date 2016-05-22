@@ -126,7 +126,7 @@ netif_set_up(&DM9000AEP);
 <pre><code>/*
  * desc:指向向锁存器输入的8字节
  * src:指向待显示的6个辉光管数字[0,9],当超出给定范围时，认定为不显示任何内容
- * 小时高  小时低  分钟高  分钟低  秒高    秒低
+ * 小时高  小时低 分钟高  分钟低   秒高   秒低
  * src[0] src[1] src[2] src[3] src[4] src[5]
  */
 static void app_display_set_map(char *desc, char *src)
