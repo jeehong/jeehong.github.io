@@ -41,6 +41,6 @@ tags:	    [linux]
 <br />	<code>20 3 * * * /bin/rm -f expire.ls logins.bad;bin/expire$#@62;expire.1st</code>
 <br />
 <br />经过上面的举例，想必已经掌握了他的规则，下面我就把早上的闹钟启动起来了，配置文件如下：
-<br /><code >0       1       *       *       *       ntpdate 133.100.11.8 && hwclock -w</code>
-<br /><code> 0       8       *       *       1-5     madplay /home/lonely.mp3 -m -a -30 -G</code>
+<br /><code>0       1       *       *       *       ntpdate 133.100.11.8 && hwclock -w</code>
+<br /><code>0       8       *       *       1-5     madplay /home/lonely.mp3 -m -a -30 -G</code>
 <br />功能在于每天凌晨1点钟校准时间并写入硬件；早上八点播放音乐lonely.mp3一遍；
