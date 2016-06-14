@@ -70,8 +70,8 @@ noinst_LIBRARIES=libsub.a
 libsub_a_SOURCES=sub.h sub.c</code>
 
 <p>至此，需要配置的环境已经全部结束，依次运行如下命令来生成Makefile：</p>
-<code>automake --add-missing</code>
-<code>./configure</code>
+<code>automake --add-missing
+./configure</code>
 <p>如果需要指定在特定主机上运行的程序，例如arm（arm-linux-gcc），则需要配置编译器类型,配置如下</p>
 <code>./configure --host=arm-linux</code>
 
