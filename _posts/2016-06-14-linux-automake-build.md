@@ -72,6 +72,9 @@ libsub_a_SOURCES=sub.h sub.c</code>
 <p>至此，需要配置的环境已经全部结束，依次运行如下命令来生成Makefile：</p>
 <code>automake --add-missing</code>
 <code>./configure</code>
+<p>如果需要指定在特定主机上运行的程序，例如arm（arm-linux-gcc），则需要配置编译器类型,配置如下</p>
+<code>./configure --host=arm-linux</code>
+
 <p>此时已经生成了Makelfile，最后执行如下命令得到我们的目标代码并产生执行结果。</p>
 <code>make</code>
 <code>./main</code>
@@ -80,4 +83,4 @@ libsub_a_SOURCES=sub.h sub.c</code>
 int a+b IS:22
 int a-b IS:-2</code>
 
-<p>通过学习知道了automake的大致流程，但是对于细节性的内容需要我们在实际能够碰到需求再做扩展，比如如何配置编译器等等。</p>
+<p>通过学习知道了automake的大致流程，但是对于细节性的功能需要在实际应用中再做扩展。</p>
