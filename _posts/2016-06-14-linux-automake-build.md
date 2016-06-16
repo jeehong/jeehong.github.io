@@ -10,7 +10,7 @@ tags:	    [linux, programming]
 
 <p>下面举例说明如何使用该工具：</p>
 我测试的例子源码目录结构如下，main.c分别调用了add/ sub/ 文件夹下的模块，并生成可执行文件。
-示例源代码目录：[automake-test](https://github.com/jeehong/automake-test)
+示例源代码目录：[automake-test](https://github.com/jeehong/automake-test)<br />
 <code>.
 ├── main.c
 ├── add
