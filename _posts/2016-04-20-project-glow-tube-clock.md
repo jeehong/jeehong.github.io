@@ -129,22 +129,23 @@ netif_set_up(&DM9000AEP);
  * 小时高  小时低 分钟高  分钟低   秒高   秒低
  * src[0] src[1] src[2] src[3] src[4] src[5]
  */
-static void app_display_set_map(char *desc, char *src)
+static void app_display_calc_map(char *desc, char *src)
 {
 	unsigned char tube;		/* 当前操作的管子序号 */
-	const unsigned char tube_num = 5;	/* 管子总数 */
+	const unsigned char tube_num = TUBE_NUM - 1;	/* 管子总数 */
 	unsigned char calc;
-	memset(desc, 0, sizeof(char) * 8);
+
+	memset(desc, 0, CHIP595_NUM);
 	for(tube = 0; tube <= tube_num; tube++)
 	{
 		if((unsigned char)src[tube] <= 9)
 		{
 			calc = tube * 10 + src[tube_num - tube];
-			desc[calc / 8] = 0x01 << (calc % 8);
+			desc[calc >> 3] |= 0x01 << (calc % 8);
 		}
 		else		/* 当满足这个条件时，则默认为不显示任何内容 */
 		{}
-	}	
+	}
 }
 </code></pre>
 这个函数被标记了static属性，也就是虽然称为一个api，我就是觉得这个函数在实现display功能中起到关键作用。但我想这还不具备可以开放给多任务的一个合理接口，对外开放还需要考虑到更多的因素，比如资源的互斥性。这个后面会斟酌并给出符合单片机高效性和实时性的接口。
