@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      automake多级目录结构处理的工程编译(c语言工程)
+title:      automake针对多级目录结构工程编译的处理方式(c语言工程)
 keywords:   programming
 categories: [linux, programming]
 tags:	    [linux, programming]
