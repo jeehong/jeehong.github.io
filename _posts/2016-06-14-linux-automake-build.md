@@ -29,9 +29,11 @@ tags:	    [linux, programming]
 <p>vim添加行AM_INIT_AUTOMAKE(main, 1.0)</p>
 <p>vim添加行AC_PROG_CXX和AC_PROG_RANLIB</p>
 <p>AC_PROG_RANLIB表示使用了静态库编译,需要此宏定义</p>
-<p>vim修改行AC_OUTPUT内容为AC_OUTPUT(Makefile)</p>
-<p>vim将AC_CONFIG_FILES替换为AC_OUTPUT</p>
-<p>删除最低行AC_OUTPUT</p>
+<p>vim修改行AC_OUTPUT内容为:</p>
+<code>AC_OUTPUT([Makefile
+           add/Makefile
+           sub/Makefile])</code>
+
 
 <p>运行命令生成如下命令生成aclocal.m4文件和autom4te.cache,该文件主要处理本地的宏定义。</p>
 <code>aclocal</code>
@@ -45,12 +47,12 @@ tags:	    [linux, programming]
 <code>vim Makefile.am</code>
 <p>添加内容如下：</p>
 <code>AUTOMAKE_OPTIONS=foreign
-
 SUBDIRS=add sub
 bin_PROGRAMS=main
 main_SOURCES=main.c
 main_LDADD=sub/libsub.a add/libadd.a</code>
 
+<p>如果工程引用了pthread库则需要在末尾追加<code>LIBS += -lpthread</code></p>
 <p>其中的AUTOMAKE_OPTIONS为设置automake的选项。由于GNU（在第1章中已经有所介绍）对自己发布的软件有严格的规范，比如必须附 带许可证声明文件COPYING等，否则automake执行时会报错。automake提供了三种软件等级：foreign、gnu和gnits，让用 户选择采用，默认等级为gnu。在本例使用foreign等级，它只检测必须的文件。 </p>
 <p>bin_PROGRAMS定义要产生的执行文件名。如果要产生多个执行文件，每个文件名用空格隔开。 main_SOURCES定义“main”这个执行程序所需要的原始文件。如果”main”这个程序是由多个原始文件所产生的，则必须把它所用到的所有原 始文件都列出来，并用空格隔开。例如：若目标体“main”需要“main.c”、“sunq.c”、“main.h”三个依赖文件，则定义 main_SOURCES=main.c sunq.c main.h。要注意的是，如果要定义多个执行文件，则对每个执行程序都要定义相应的file_SOURCES。 其次 
 使用automake对其生成“configure.ac”文件，在这里使用选项“—adding-missing”可以让automake自动添加有一些必需的脚本文件。</p>
