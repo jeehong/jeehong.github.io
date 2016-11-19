@@ -76,8 +76,7 @@ libsub_a_SOURCES=sub.h sub.c</code>
 <code>automake --add-missing
 ./configure</code>
 <p>如果需要指定在特定主机上运行的程序，例如arm（arm-linux-gcc），则需要配置编译器类型,配置如下</p>
-<code>./configure --host=arm-linux</code>
-
+<code>./configure --host=arm-linux CC=arm-linux-gcc</code>
 <p>此时已经生成了Makelfile，最后执行如下命令得到我们的目标代码并产生执行结果。</p>
 <code>make</code>
 <code>./main</code>
